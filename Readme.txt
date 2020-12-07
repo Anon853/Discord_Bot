@@ -1,0 +1,1 @@
+Gemacht in node.js, discord.js, node-fetch
