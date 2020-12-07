@@ -1,1 +1,1 @@
-Gemacht in node.js, discord.js, node-fetch
+Gemacht mit node.js, discord.js, node-fetch, JSON
