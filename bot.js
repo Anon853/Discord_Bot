@@ -1,20 +1,22 @@
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
-
-console.log("Beep boop I'm a bot.");
+const keyLoader = require ('./key.json');
+console.log("Bot booting up.");
 
 const client = new Discord.Client(); 
-client.login('brauchtnochkey');
-//eventhandler als meldung ob logged in
+
+//key aus local key.json, weil git meckert dass der key public geht
+client.login(keyLoader.key);
+
 client.on('ready', readyDiscord );
 
 function readyDiscord(){
-    console.log('BaumhausBot initiated.');
+    console.log('Bot initiated.');
 }
 
 const replies = [
     'Hey du',
-    'hey, was gibts?',
+    'Na, was gibts?',
     'Ja?',
     'Brauchst du was?',
 ]
@@ -22,7 +24,7 @@ const replies = [
 client.on('message', gotMessage);
 
 function gotMessage(msg){
-    console.log(msg.content); //nimmt chat auf, kann weg oder neue func
+    console.log(msg.content); 
     if (msg.content === 'Hey longcat') {
         const i = Math.floor(Math.random() * replies.length);
         msg.channel.send(replies[i]);
@@ -96,16 +98,9 @@ const helpEmbed = new Discord.MessageEmbed()
         { name: 'Commands', value:
          '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd' },
 	)
-	.setImage('https://st5.ning.com/topology/rest/1.0/file/get/2260881579')
+	.setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
 	.setTimestamp()
 
 
 
 
-
-
-
-
-
-
-    
