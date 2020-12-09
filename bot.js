@@ -122,7 +122,7 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setThumbnail('http://www.blindfiveyearold.com/wp-content/uploads/2013/04/longcat-is-long.jpg')
 	.addFields(
         { name: 'Commands', value:
-         '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd' },
+         '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd\n!wetter' },
 	)
 	.setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
 	.setTimestamp()
