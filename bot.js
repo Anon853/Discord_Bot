@@ -9,11 +9,8 @@ const client = new Discord.Client();
 //key aus local key.json, weil git meckert dass der key public geht. fetch geht nicht, weil path =/= url
 client.login(keyLoader.key);
 
+const readyDiscord = () => console.log('Bot initiated.');
 client.on('ready', readyDiscord );
-
-function readyDiscord(){
-    console.log('Bot initiated.');
-}
 
 const replies = [
     'Hey du',
@@ -22,9 +19,7 @@ const replies = [
     'Brauchst du was?',
 ]
 
-client.on('message', gotMessage);
-
-function gotMessage(msg){
+const gotMessage = (msg) => {
     console.log(msg.content); 
     if (msg.content === 'Hey hausbot') {
         const i = Math.floor(Math.random() * replies.length);
@@ -32,10 +27,10 @@ function gotMessage(msg){
     }
 }
 
-//Aus API den json string, in var, in .setImage
-client.on('message', catMessage);
+client.on('message', gotMessage);
 
-function catMessage(msg){
+//Aus API den json string, in var, in .setImage
+const catMessage = (msg) => {
     if (msg.content === '!caturday'){
         
         fetch('https://aws.random.cat/meow')
@@ -51,9 +46,9 @@ function catMessage(msg){
     }
 }
 
-client.on('message', xkcdMessage);
+client.on('message', catMessage);
 
-function xkcdMessage(msg){
+const xkcdMessage = (msg) => {
     if (msg.content === '!xkcd'){
         
         fetch('http://xkcd.com/info.0.json')
@@ -74,7 +69,7 @@ function xkcdMessage(msg){
     }
 }
 
-
+client.on('message', xkcdMessage);
 
 const wetterMessage = (msg) => {
     if (msg.content === '!wetter'){
@@ -85,10 +80,10 @@ const wetterMessage = (msg) => {
         wetterData = json;
 
         const wetterEmbed = new Discord.MessageEmbed()
-        .setColor('#00FFFF')
+        .setColor('#000000')
         .setTitle('Aktuelles Wetter Hamburg')
         .addFields(
-            { name: 'Temperatur: ', value: Math.floor(json.main.temp - 273.15) + "C°" },  //weil kelvin json value
+            { name: 'Temperatur: ', value: Math.floor(json.main.temp - 273.15) + "°C" },  //weil kelvin json value
             { name: 'Wolken: ', value: json.clouds.all + "% bewölkt" },
             { name: 'Luftfeuchtigkeit: ', value: (json.main.humidity + "%") },   
         )
@@ -99,22 +94,22 @@ const wetterMessage = (msg) => {
 
 client.on('message', wetterMessage);
 
-client.on('message', z0rMessage);
-
-function z0rMessage(msg){
+const z0rMessage = (msg) => {
     if (msg.content === '!z0r') {
         const i = Math.floor(Math.random() * (7911 - 1) + 1);
         msg.channel.send('https://z0r.de/' + [i]);
     }
 }
 
-client.on('message', helpMessage);
+client.on('message', z0rMessage);
 
-function helpMessage(msg){
+const helpMessage = (msg) => {
     if (msg.content === '!help') {
         msg.channel.send(helpEmbed);
     }
 }
+
+client.on('message', helpMessage);
 
 const helpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
