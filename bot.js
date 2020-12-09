@@ -1,11 +1,12 @@
 const fetch = require("node-fetch");
 const Discord = require('discord.js');
 const keyLoader = require ('./key.json');
+const keyLoaderWetter = require ('./key_wetter.json');
 console.log("Bot booting up.");
 
 const client = new Discord.Client(); 
 
-//key aus local key.json, weil git meckert dass der key public geht
+//key aus local key.json, weil git meckert dass der key public geht. fetch geht nicht, weil path =/= url
 client.login(keyLoader.key);
 
 client.on('ready', readyDiscord );
@@ -25,7 +26,7 @@ client.on('message', gotMessage);
 
 function gotMessage(msg){
     console.log(msg.content); 
-    if (msg.content === 'Hey longcat') {
+    if (msg.content === 'Hey hausbot') {
         const i = Math.floor(Math.random() * replies.length);
         msg.channel.send(replies[i]);
     }
@@ -72,6 +73,31 @@ function xkcdMessage(msg){
     });
     }
 }
+
+
+
+const wetterMessage = (msg) => {
+    if (msg.content === '!wetter'){
+
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=' + keyLoaderWetter.key)
+    .then(res => res.json())
+    .then(json => {
+        wetterData = json;
+
+        const wetterEmbed = new Discord.MessageEmbed()
+        .setColor('#00FFFF')
+        .setTitle('Aktuelles Wetter Hamburg')
+        .addFields(
+            { name: 'Temperatur: ', value: Math.floor(json.main.temp - 273.15) + "C°" },  //weil kelvin json value
+            { name: 'Wolken: ', value: json.clouds.all + "% bewölkt" },
+            { name: 'Luftfeuchtigkeit: ', value: (json.main.humidity + "%") },   
+        )
+        msg.channel.send(wetterEmbed);
+    });
+}
+}
+
+client.on('message', wetterMessage);
 
 client.on('message', z0rMessage);
 
