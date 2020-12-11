@@ -19,6 +19,7 @@ const replies = [
     'Na, was gibts?',
     'Ja?',
     'Brauchst du was?',
+    'Für commands !help'
 ]
 
 const gotMessage = (msg) => {
@@ -31,7 +32,6 @@ const gotMessage = (msg) => {
 
 client.on('message', gotMessage);
 
-//Aus API den json string, in var, in .setImage
 const catMessage = (msg) => {
     if (msg.content === '!caturday'){
         
@@ -49,6 +49,26 @@ const catMessage = (msg) => {
 }
 
 client.on('message', catMessage);
+
+
+const figletMessage = (msg, data) => {
+    if (msg.content === '!figlet') {
+        msg.channel.send('Figlet mode activated. Enter your text:');
+        
+    }   
+    
+        msg.content = figletInput;
+        console.log(figletInput);
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O')
+        .then(res => res.json())
+        .then(json => {
+            figletResult = json;   
+            msg.channel.send('```' + json + '```')
+        });
+    
+}
+
+client.on('message', figletMessage);
 
 const xkcdMessage = (msg) => {
     if (msg.content === '!xkcd'){
