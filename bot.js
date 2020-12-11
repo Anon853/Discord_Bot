@@ -56,10 +56,9 @@ const figletMessage = (msg, data) => {
         msg.channel.send('Figlet mode activated. Enter your text:');
         
     }   
-    
         msg.content = figletInput;
         console.log(figletInput);
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O')
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O') //data hier ans ende ran
         .then(res => res.json())
         .then(json => {
             figletResult = json;   
