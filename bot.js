@@ -2,6 +2,8 @@ const fetch = require("node-fetch");
 const Discord = require('discord.js');
 const keyLoader = require ('./key.json');
 const keyLoaderWetter = require ('./key_wetter.json');
+const colorLoader = require ('./colors.json');
+
 console.log("Bot booting up.");
 
 const client = new Discord.Client(); 
@@ -75,17 +77,43 @@ const wetterMessage = (msg) => {
     if (msg.content === '!wetter'){
 
     fetch('https://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=' + keyLoaderWetter.key)
+
     .then(res => res.json())
     .then(json => {
         wetterData = json;
+        wetterTempValue = Math.floor(json.main.temp - 273.15); //subtraktion weil kelvin json value
+        wetterTempValueFeelsLike = Math.floor(json.main.feels_like - 273.15);
+        sunsetJsonValue = String(json.sys.sunset); //weil da ein riesen int rauskommt, zu string, substr aufgeteilt in std und min positionen
+        sunsetStringHours = sunsetJsonValue.substr(0,2);
+        sunsetStringMinutes = sunsetJsonValue.substr(2,2);
+        windValue = Math.floor(json.wind.speed * 3.6); //Wind km/h = wind m/s * 3.6
+
+        if (wetterTempValue >= 0 && wetterTempValue <= 5) {
+            colorLoaderValue = colorLoader.color1;
+        } else if (wetterTempValue >= 5 && wetterTempValue <= 9) {
+            colorLoaderValue = colorLoader.color2;
+        } else if (wetterTempValue >= 9  && wetterTempValue <= 13) {
+            colorLoaderValue = colorLoader.color3;
+        } else if (wetterTempValue >= 13  && wetterTempValue <= 17) {
+            colorLoaderValue = colorLoader.color4; 
+        } else if (wetterTempValue >= 17  && wetterTempValue <= 21) {
+            colorLoaderValue = colorLoader.color5;
+        } else if (wetterTempValue >= 21  && wetterTempValue <= 25) {
+            colorLoaderValue = colorLoader.color6;
+        } else if (wetterTempValue >= 25  && wetterTempValue <= 99) {
+            colorLoaderValue = colorLoader.color7;   
+        }
 
         const wetterEmbed = new Discord.MessageEmbed()
-        .setColor('#000000')
+        .setColor(colorLoaderValue)
         .setTitle('Aktuelles Wetter Hamburg')
         .addFields(
-            { name: 'Temperatur: ', value: Math.floor(json.main.temp - 273.15) + "°C" },  //weil kelvin json value
+            { name: 'Temperatur: ', value: wetterTempValue + "°C" },
+            { name: 'Gefühlt wie : ', value: (wetterTempValueFeelsLike + "°C" )},  
             { name: 'Wolken: ', value: json.clouds.all + "% bewölkt" },
-            { name: 'Luftfeuchtigkeit: ', value: (json.main.humidity + "%") },   
+            { name: 'Luftfeuchtigkeit: ', value: (json.main.humidity + "%")},    
+            { name: 'Sonnenuntergang: ', value: (sunsetStringHours + ":" + sunsetStringMinutes)},
+            { name: 'Windstärke: ', value: (windValue + " km/h")}
         )
         msg.channel.send(wetterEmbed);
     });
