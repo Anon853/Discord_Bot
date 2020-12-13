@@ -52,19 +52,15 @@ client.on('message', catMessage);
 
 
 const figletMessage = (msg) => {
-    if (msg.content.startsWith === '!figlet') {
-        //msg.channel.send('Figlet mode activated. Enter your text:'); 
-        msg.content = figletInput;
-    }   
-        //if msg startswith !figlet, dann .substr in array oder var als url input
-        //msg.content = figletInput;
-        //console.log(figletInput);
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O')
+    if (msg.content === '!figlet') {
+
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=' + 'L')
         .then(res => res.json())
         .then(json => {
             figletResult = json;   
             msg.channel.send('```' + json + '```')
         });
+    }
     
 }
 
@@ -97,7 +93,6 @@ const wetterMessage = (msg) => {
     if (msg.content === '!wetter'){
 
     fetch('https://api.openweathermap.org/data/2.5/weather?q=Hamburg&appid=' + keyLoaderWetter.key)
-
     .then(res => res.json())
     .then(json => {
         wetterData = json;
