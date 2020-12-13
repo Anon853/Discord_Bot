@@ -51,14 +51,15 @@ const catMessage = (msg) => {
 client.on('message', catMessage);
 
 
-const figletMessage = (msg, data) => {
-    if (msg.content === '!figlet') {
-        msg.channel.send('Figlet mode activated. Enter your text:');
-        
-    }   
+const figletMessage = (msg) => {
+    if (msg.content.startsWith === '!figlet') {
+        //msg.channel.send('Figlet mode activated. Enter your text:'); 
         msg.content = figletInput;
-        console.log(figletInput);
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O') //data hier ans ende ran
+    }   
+        //if msg startswith !figlet, dann .substr in array oder var als url input
+        //msg.content = figletInput;
+        //console.log(figletInput);
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=O')
         .then(res => res.json())
         .then(json => {
             figletResult = json;   
