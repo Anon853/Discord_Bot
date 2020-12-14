@@ -54,12 +54,12 @@ client.on('message', catMessage);
 const figletMessage = (msg) => {
     if (msg.content === '!figlet') {
         //figletInput = 'var';
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=Hello!')
-        .then(res => res.json())
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=123') //syntax richtig, aber daten entstehen erst in browser, dann abrufbar
+        .then(res => res.json())                                    //idee:: erst senden, dann abrufen
         .then(json => {
-            fig2Result = json
-            figletResult = json;   
-            msg.channel.send('```' + fig2Result + '```')
+            let figletResult = json;  
+            msg.channel.send('```' + figletResult + '```') 
+            
         });
     }
     
