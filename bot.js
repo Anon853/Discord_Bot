@@ -53,12 +53,13 @@ client.on('message', catMessage);
 
 const figletMessage = (msg) => {
     if (msg.content === '!figlet') {
-
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=' + 'L')
+        //figletInput = 'var';
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=Hello!')
         .then(res => res.json())
         .then(json => {
+            fig2Result = json
             figletResult = json;   
-            msg.channel.send('```' + json + '```')
+            msg.channel.send('```' + fig2Result + '```')
         });
     }
     
