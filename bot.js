@@ -3,12 +3,13 @@ const Discord = require('discord.js');
 const keyLoader = require ('./key.json');
 const keyLoaderWetter = require ('./key_wetter.json');
 const colorLoader = require ('./colors.json');
+const https = require ('https');
 
 console.log("Bot booting up.");
 
 const client = new Discord.Client(); 
 
-//key aus local key.json, weil git meckert dass der key public geht. fetch geht nicht, weil path =/= url
+//key aus local key.json, weil git meckert dass der key public geht.
 client.login(keyLoader.key);
 
 const readyDiscord = () => console.log('Bot initiated.');
@@ -51,16 +52,36 @@ const catMessage = (msg) => {
 client.on('message', catMessage);
 
 
+
+const figInput = 'durrrrr';
+
 const figletMessage = (msg) => {
+    
+    if (msg.content === 'asd') {
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=B', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
+            body: 'foo=bar&blah=1'
+        
+
+
+        });
+    }
+
+    
+    
+
     if (msg.content === '!figlet') {
-        //figletInput = 'var';
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=123') //syntax richtig, aber daten entstehen erst in browser, dann abrufbar
+    
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=A') //syntax richtig, aber daten entstehen erst in browser, dann abrufbar
         .then(res => res.json())                                    //idee:: erst senden, dann abrufen
         .then(json => {
             let figletResult = json;  
-            msg.channel.send('```' + figletResult + '```') 
-            
+            msg.channel.send('```' + figletResult + '```')
+        
         });
+
+        
     }
     
 }
@@ -118,6 +139,8 @@ const wetterMessage = (msg) => {
             colorLoaderValue = colorLoader.color6;
         } else if (wetterTempValue >= 25  && wetterTempValue <= 99) {
             colorLoaderValue = colorLoader.color7;   
+        } else {
+            colorLoaderValue = colorLoader.color8; 
         }
 
         const wetterEmbed = new Discord.MessageEmbed()
