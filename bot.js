@@ -16,18 +16,18 @@ const readyDiscord = () => console.log('Bot initiated.');
 client.on('ready', readyDiscord );
 
 const replies = [
-    'Hey du',
-    'Na, was gibts?',
-    'Ja?',
-    'Brauchst du was?',
-    'Für commands !help'
+    ' hey du',
+    ' na, was gibts?',
+    ' ja?',
+    ' brauchst du was?',
+    ' für commands !help'
 ]
 
 const gotMessage = (msg) => {
     console.log(msg.content); 
     if (msg.content === 'Hey hausbot') {
         const i = Math.floor(Math.random() * replies.length);
-        msg.channel.send(replies[i]);
+        msg.reply(replies[i]);
     }
 }
 
@@ -58,35 +58,48 @@ const figInput = 'durrrrr';
 const figletMessage = (msg) => {
     
     if (msg.content === 'asd') {
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=B', {
+
+        const msg = 'D';
+
+        fetch('https://uploadbeta.com/api/figlet/?post&msg=y', {
             method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'}, // this line is important, if this content-type is not set it wont work
-            body: 'foo=bar&blah=1'
-        
+            headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
+            body: msg,
+            
 
 
         });
+        console.log('No error.')
     }
 
-    
-    
-
-    if (msg.content === '!figlet') {
-    
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=A') //syntax richtig, aber daten entstehen erst in browser, dann abrufbar
-        .then(res => res.json())                                    //idee:: erst senden, dann abrufen
+    if (msg.content === 'f') {
+        
+        fetch('https://uploadbeta.com/api/figlet/?msg=y')
+        .then(res => res.json())                                    
         .then(json => {
             let figletResult = json;  
             msg.channel.send('```' + figletResult + '```')
-        
         });
-
-        
     }
-    
 }
 
 client.on('message', figletMessage);
+
+const figletMessageTwo = (msg) => {
+if (msg.content === 'f2') {
+        
+    fetch('http://api.textart.io/figlet.json?text=' +  + '&style=slant&encode=false') 
+    .then(res => res.json())                                    
+    .then(json => {
+        let figletResult = json.contents.figlet;  
+        msg.channel.send('```' + figletResult + '```')
+    });
+    }
+}
+
+client.on('message', figletMessageTwo);
+
+
 
 const xkcdMessage = (msg) => {
     if (msg.content === '!xkcd'){
@@ -118,7 +131,7 @@ const wetterMessage = (msg) => {
     .then(res => res.json())
     .then(json => {
         wetterData = json;
-        wetterTempValue = Math.floor(json.main.temp - 273.15); //subtraktion weil kelvin json value
+        wetterTempValue = Math.floor(json.main.temp - 273.15); //weil kelvin
         wetterTempValueFeelsLike = Math.floor(json.main.feels_like - 273.15);
         sunsetJsonValue = String(json.sys.sunset); //weil da ein riesen int rauskommt, zu string, substr aufgeteilt in std und min positionen
         sunsetStringHours = sunsetJsonValue.substr(0,2);
@@ -184,11 +197,64 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setThumbnail('http://www.blindfiveyearold.com/wp-content/uploads/2013/04/longcat-is-long.jpg')
 	.addFields(
         { name: 'Commands', value:
-         '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd\n!wetter' },
+         '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd\n!wetter\n!secretword\n!highscore' },
 	)
 	.setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
-	.setTimestamp()
+	.setTimestamp();
 
 
-
-
+    const secretMessageCheck = (msg) => {
+        if (msg.content.includes('Buchsbaum')) {
+            var secretMessageEmbed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('It happened!')
+        .addFields(
+            { name: 'Oh snap!', value:
+             '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+        )
+        .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
+        msg.channel.send(secretMessageEmbed);
+        } else if (msg.content.includes('buchsbaum')) {
+            {
+            var secretMessageEmbed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('It happened!')
+        .addFields(
+            { name: 'Oh snap!', value:
+                '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+        )
+        .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
+        }
+        msg.channel.send(secretMessageEmbed);
+    }
+    }
+    
+    client.on('message', secretMessageCheck);
+    
+    const secretRulesMessage = (msg) => {
+        if (msg.content === '!secretword') {
+            
+            var secretRulesEmbed = new Discord.MessageEmbed() 
+            
+            .setColor('#ff0000')
+            .addFields({name: "Secret Word", value: 'Findet das geheime Wort herraus und steigt in der Highscore-Liste auf. Hint: Altes HH meme' })
+            .setImage('https://2.bp.blogspot.com/-Ppx9Jrs13vA/T_Zcl5cncXI/AAAAAAAACno/4PHfU9NA35o/s1600/The_Riddler_3.png')
+        }
+        msg.channel.send(secretRulesEmbed);
+    }
+    
+    client.on('message', secretRulesMessage);
+    
+    const highscoreMessage = (msg) => {
+        if (msg.content === '!highscore') {
+            
+            var highscoreEmbed = new Discord.MessageEmbed() 
+            
+            .setColor('#ff0000')
+            .addFields({name: "Secret word highscore", value: '1.\n2.\n3.\n' })
+            .setImage('https://i.ytimg.com/vi/Y0qk55jUKhk/maxresdefault.jpg')
+        }
+        msg.channel.send(highscoreEmbed);
+    }
+    
+    client.on('message', highscoreMessage);
