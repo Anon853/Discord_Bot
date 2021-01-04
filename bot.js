@@ -53,6 +53,8 @@ client.on('message', catMessage);
 
 
 
+//curl -d msg=lol https://uploadbeta.com/api/figlet/ 
+
 const figInput = 'durrrrr';
 
 const figletMessage = (msg) => {
@@ -258,3 +260,37 @@ const helpEmbed = new Discord.MessageEmbed()
     }
     
     client.on('message', highscoreMessage);
+
+
+
+
+
+
+    if (msg.content === 'f') {
+        
+        fetch('https://uploadbeta.com/api/figlet/?cached&msg=y')
+        .then(res => res.json())                                    
+        .then(json => {
+            let figletResult = json;  
+            msg.channel.send('```' + figletResult + '```')
+        });
+    }
+
+
+client.on('message', figletMessage);
+
+const figletMessageTwo = (msg) => {
+if (msg.content === 'f2') {
+        
+    fetch('http://api.textart.io/figlet.json?text=' +  + '&style=slant&encode=false') 
+    .then(res => res.json())                                    
+    .then(json => {
+        let figletResult = json.contents.figlet;  
+        msg.channel.send('```' + figletResult + '```')
+    });
+    }
+}
+
+client.on('message', figletMessageTwo);
+
+
