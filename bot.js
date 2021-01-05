@@ -4,6 +4,7 @@ const keyLoader = require ('./key.json');
 const keyLoaderWetter = require ('./key_wetter.json');
 const colorLoader = require ('./colors.json');
 const https = require ('https');
+const { stringify } = require("querystring");
 
 console.log("Bot booting up.");
 
@@ -50,56 +51,6 @@ const catMessage = (msg) => {
 }
 
 client.on('message', catMessage);
-
-
-
-//curl -d msg=lol https://uploadbeta.com/api/figlet/ 
-
-const figInput = 'durrrrr';
-
-const figletMessage = (msg) => {
-    
-    if (msg.content === 'asd') {
-
-        const msg = 'D';
-
-        fetch('https://uploadbeta.com/api/figlet/?post&msg=y', {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-            body: msg,
-            
-
-
-        });
-        console.log('No error.')
-    }
-
-    if (msg.content === 'f') {
-        
-        fetch('https://uploadbeta.com/api/figlet/?msg=y')
-        .then(res => res.json())                                    
-        .then(json => {
-            let figletResult = json;  
-            msg.channel.send('```' + figletResult + '```')
-        });
-    }
-}
-
-client.on('message', figletMessage);
-
-const figletMessageTwo = (msg) => {
-if (msg.content === 'f2') {
-        
-    fetch('http://api.textart.io/figlet.json?text=' +  + '&style=slant&encode=false') 
-    .then(res => res.json())                                    
-    .then(json => {
-        let figletResult = json.contents.figlet;  
-        msg.channel.send('```' + figletResult + '```')
-    });
-    }
-}
-
-client.on('message', figletMessageTwo);
 
 
 
@@ -208,9 +159,9 @@ const helpEmbed = new Discord.MessageEmbed()
     const secretMessageCheck = (msg) => {
         if (msg.content.includes('Buchsbaum')) {
             var secretMessageEmbed = new Discord.MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle('It happened!')
-        .addFields(
+            .setColor('#0099ff')
+            .setTitle('It happened!')
+            .addFields(
             { name: 'Oh snap!', value:
              '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
         )
@@ -263,34 +214,52 @@ const helpEmbed = new Discord.MessageEmbed()
 
 
 
+//curl -d msg=lol https://uploadbeta.com/api/figlet/ 
+// Querry funktioniert im browser, curl, function nur wenn es schon im browser aufgerufen wurde
+// Error 503, findet den server nicht
+
+// const figletMessageThree = (message) => {
+//     if (message.content === 'f3') {
+//         let msg = '215';
+
+//         fetch('https://uploadbeta.com/api/figlet/?cached&msg=215', {
+//             method: 'POST',
+//             body: (msg),
+//             headers: { 'Content-Type': 'application/json' }
+//         }).then(res => res.json())
+//             .then(json => console.log(json));
+//           } 
+//         }
+//     client.on('message', figletMessageThree);
 
 
-
-    if (msg.content === 'f') {
+// const figletMessage = (msg) => {
+//     if (msg.content === 'f') {
         
-        fetch('https://uploadbeta.com/api/figlet/?cached&msg=y')
-        .then(res => res.json())                                    
-        .then(json => {
-            let figletResult = json;  
-            msg.channel.send('```' + figletResult + '```')
-        });
-    }
+//         fetch('https://uploadbeta.com/api/figlet/?cached&msg=111')
+//         .then(res => res.json())                                    
+//         .then(json => {
+//             console.log(json);
+//             let figletResult = json;  
+//             msg.channel.send('```' + figletResult + '```')
+//         })
+//         .catch(err => console.log(err));
+//     }
+// }
 
-
-client.on('message', figletMessage);
+// client.on('message', figletMessage);
 
 const figletMessageTwo = (msg) => {
-if (msg.content === 'f2') {
-        
-    fetch('http://api.textart.io/figlet.json?text=' +  + '&style=slant&encode=false') 
-    .then(res => res.json())                                    
-    .then(json => {
-        let figletResult = json.contents.figlet;  
-        msg.channel.send('```' + figletResult + '```')
-    });
-    }
+if (msg.content.includes('!figlet')) {
+    let figletInput = msg.content; 
+    let figletSubstringValue = figletInput.substr(8,50);
+    fetch('http://api.textart.io/figlet.json?text=' + figletSubstringValue + '&style=slant&encode=false') 
+        .then(res => res.json())                                    
+        .then(json => {
+            let figletResult = json.contents.figlet;  
+            msg.channel.send('```' + figletResult + '```')
+        }).catch(err => console.log(err));
+     }
 }
 
 client.on('message', figletMessageTwo);
-
-
