@@ -3,8 +3,6 @@ const Discord = require('discord.js');
 const keyLoader = require ('./key.json');
 const keyLoaderWetter = require ('./key_wetter.json');
 const colorLoader = require ('./colors.json');
-const https = require ('https');
-const { stringify } = require("querystring");
 
 console.log("Bot booting up.");
 
@@ -150,69 +148,61 @@ const helpEmbed = new Discord.MessageEmbed()
 	.setThumbnail('http://www.blindfiveyearold.com/wp-content/uploads/2013/04/longcat-is-long.jpg')
 	.addFields(
         { name: 'Commands', value:
-         '\n\n\nHey longcat\n!help\n!caturday\n!z0r\n!xkcd\n!wetter\n!secretword\n!highscore' },
+         '\n\n\nHey hausbot\n!help\n!caturday\n!z0r\n!xkcd\n!wetter\n!secretword\n!highscore\n!figlet TEXT(50 Zeichen max)' },
 	)
 	.setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
 	.setTimestamp();
 
 
-    const secretMessageCheck = (msg) => {
-        if (msg.content.includes('Buchsbaum')) {
-            var secretMessageEmbed = new Discord.MessageEmbed()
+const secretMessageCheck = (msg) => {
+    if (msg.content.includes('Buchsbaum')) {
+        var secretMessageEmbed = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTitle('It happened!')
             .addFields(
-            { name: 'Oh snap!', value:
-             '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+                { name: 'Oh snap!', value:
+                '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
         )
         .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
         msg.channel.send(secretMessageEmbed);
         } else if (msg.content.includes('buchsbaum')) {
             {
             var secretMessageEmbed = new Discord.MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle('It happened!')
-        .addFields(
-            { name: 'Oh snap!', value:
-                '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
-        )
-        .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
+                .setColor('#0099ff')
+                .setTitle('It happened!')
+                .addFields(
+                    { name: 'Oh snap!', value:
+                    '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+                    )
+                    .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
         }
         msg.channel.send(secretMessageEmbed);
     }
-    }
+}
     
-    client.on('message', secretMessageCheck);
+client.on('message', secretMessageCheck);
     
-    const secretRulesMessage = (msg) => {
-        if (msg.content === '!secretword') {
-            
-            var secretRulesEmbed = new Discord.MessageEmbed() 
-            
+const secretRulesMessage = (msg) => {
+    if (msg.content === '!secretword') {
+        var secretRulesEmbed = new Discord.MessageEmbed() 
             .setColor('#ff0000')
             .addFields({name: "Secret Word", value: 'Findet das geheime Wort herraus und steigt in der Highscore-Liste auf. Hint: Altes HH meme' })
             .setImage('https://2.bp.blogspot.com/-Ppx9Jrs13vA/T_Zcl5cncXI/AAAAAAAACno/4PHfU9NA35o/s1600/The_Riddler_3.png')
         }
         msg.channel.send(secretRulesEmbed);
     }
+client.on('message', secretRulesMessage);
     
-    client.on('message', secretRulesMessage);
-    
-    const highscoreMessage = (msg) => {
-        if (msg.content === '!highscore') {
-            
-            var highscoreEmbed = new Discord.MessageEmbed() 
-            
+const highscoreMessage = (msg) => {
+    if (msg.content === '!highscore') {
+        var highscoreEmbed = new Discord.MessageEmbed() 
             .setColor('#ff0000')
             .addFields({name: "Secret word highscore", value: '1.\n2.\n3.\n' })
             .setImage('https://i.ytimg.com/vi/Y0qk55jUKhk/maxresdefault.jpg')
         }
         msg.channel.send(highscoreEmbed);
-    }
-    
-    client.on('message', highscoreMessage);
-
-
+    }   
+client.on('message', highscoreMessage);
 
 //curl -d msg=lol https://uploadbeta.com/api/figlet/ 
 // Querry funktioniert im browser, curl, function nur wenn es schon im browser aufgerufen wurde
@@ -250,15 +240,15 @@ const helpEmbed = new Discord.MessageEmbed()
 // client.on('message', figletMessage);
 
 const figletMessageTwo = (msg) => {
-if (msg.content.includes('!figlet')) {
-    let figletInput = msg.content; 
-    let figletSubstringValue = figletInput.substr(8,50);
-    fetch('http://api.textart.io/figlet.json?text=' + figletSubstringValue + '&style=slant&encode=false') 
-        .then(res => res.json())                                    
-        .then(json => {
-            let figletResult = json.contents.figlet;  
-            msg.channel.send('```' + figletResult + '```')
-        }).catch(err => console.log(err));
+    if (msg.content.includes('!figlet')) {
+        let figletInput = msg.content; 
+        let figletSubstringValue = figletInput.substr(8,58);
+        fetch('http://api.textart.io/figlet.json?text=' + figletSubstringValue + '&style=slant&encode=false') 
+            .then(res => res.json())                                    
+            .then(json => {
+                let figletResult = json.contents.figlet;  
+                msg.channel.send('```' + figletResult + '```')
+            }).catch(err => console.log(err));
      }
 }
 
