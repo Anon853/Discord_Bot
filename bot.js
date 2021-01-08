@@ -3,11 +3,12 @@ const Discord = require('discord.js');
 const keyLoader = require ('./key.json');
 const keyLoaderWetter = require ('./key_wetter.json');
 const colorLoader = require ('./colors.json');
-console.log("Bot booting up.");
+console.log("====== Bot booting up ======");
 const client = new Discord.Client(); 
 client.login(keyLoader.key);//key aus local key.json, weil git meckert dass der key public geht.
-const readyDiscord = () => console.log('Bot initiated.');
+const readyDiscord = () => console.log('====== Bot initiated ======');
 client.on('ready', readyDiscord );
+require('events').defaultMaxListeners = 70;
 
 const replies = [   
   ' hey du',
@@ -38,7 +39,7 @@ const catMessage = (msg) => {
      .setTitle('Here is your cat')
      .setImage(catResult);
      msg.channel.send(imageEmbed);
-  });
+  }) .catch(err => console.log(err));
  }
 }
 
@@ -60,7 +61,7 @@ const xkcdMessage = (msg) => {
        { name: 'Comment:', value: xkcdComment },
        )
        msg.channel.send(imageEmbed);
-    });
+    }).catch(err => console.log(err));
   }
 }
 
@@ -109,7 +110,7 @@ const wetterMessage = (msg) => {
       { name: 'Windstärke: ', value: (windValue + " km/h")}
       )
       msg.channel.send(wetterEmbed);
-    });
+    }).catch(err => console.log(err));
   }
 }
 
@@ -138,7 +139,7 @@ const helpEmbed = new Discord.MessageEmbed()
  .setThumbnail('https://cacm.acm.org/system/assets/0002/7171/042617_warosuOrg_robot_butler.large.jpeg')
  .addFields(
  { name: 'Commands', value:
- '\n\n\nHey hausbot\n!help\n!caturday\n!z0r\n!xkcd\n!wetter\n!secretword\n!highscore\n!figlet TEXT(50 Zeichen max)' },
+ '\n\n\nHey hausbot\n!help\n!caturday\n!z0r\n!xkcd\n!wetter\n!secretword\n!highscore\n!figlet TEXT(20 Zeichen max)' },
  )
  .setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
  .setTimestamp();
@@ -150,53 +151,57 @@ const secretMessageCheck = (msg) => {
     .setColor('#0099ff')
     .setTitle('It happened!')
     .addFields(
-        { name: 'Oh snap!', value:
-        '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
-        )
-    .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
-        msg.channel.send(secretMessageEmbed);
-        } else if (msg.content.includes('buchsbaum')) {
-            {
-            var secretMessageEmbed = new Discord.MessageEmbed()
-                .setColor('#0099ff')
-                .setTitle('It happened!')
-                .addFields(
-                    { name: 'Oh snap!', value:
-                    '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
-                    )
-                    .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
-        }
-        msg.channel.send(secretMessageEmbed);
+     { name: 'Oh snap!', value:
+     '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+     )
+     .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
+     msg.channel.send(secretMessageEmbed)
+     .catch(err => console.log(err));
+     } else if (msg.content.includes('buchsbaum')) {
+       {
+      var secretMessageEmbed = new Discord.MessageEmbed()
+       .setColor('#0099ff')
+       .setTitle('It happened!')
+       .addFields(
+       { name: 'Oh snap!', value:
+       '@everyone , ' + msg.author.username + ' hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
+       )
+       .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
+       }
+       msg.channel.send(secretMessageEmbed)
+       .catch(err => console.log(err));
     }
 }
     
 client.on('message', secretMessageCheck);
     
 const secretRulesMessage = (msg) => {
-    if (msg.content === '!secretword') {
-        var secretRulesEmbed = new Discord.MessageEmbed() 
-            .setColor('#ff0000')
-            .addFields({name: "Secret Word", value: 'Findet das geheime Wort herraus und steigt in der Highscore-Liste auf. Hint: Altes HH meme' })
-            .setImage('https://2.bp.blogspot.com/-Ppx9Jrs13vA/T_Zcl5cncXI/AAAAAAAACno/4PHfU9NA35o/s1600/The_Riddler_3.png')
-        }
-        msg.channel.send(secretRulesEmbed);
-    }
+  if (msg.content === '!secretword') {
+    var secretRulesEmbed = new Discord.MessageEmbed() 
+     .setColor('#ff0000')
+     .addFields({name: "Secret Word", value: 'Findet das geheime Wort herraus und steigt in der Highscore-Liste auf. Hint: Altes HH meme' })
+     .setImage('https://2.bp.blogspot.com/-Ppx9Jrs13vA/T_Zcl5cncXI/AAAAAAAACno/4PHfU9NA35o/s1600/The_Riddler_3.png')
+  }
+  msg.channel.send(secretRulesEmbed)
+  .catch(err => console.log(err));
+}
 client.on('message', secretRulesMessage);
     
 const highscoreMessage = (msg) => {
-    if (msg.content === '!highscore') {
-        var highscoreEmbed = new Discord.MessageEmbed() 
-            .setColor('#ff0000')
-            .addFields({name: "Secret word highscore", value: '1.\n2.\n3.\n' })
-            .setImage('https://i.ytimg.com/vi/Y0qk55jUKhk/maxresdefault.jpg')
-        }
-        msg.channel.send(highscoreEmbed);
-    }   
+  if (msg.content === '!highscore') {
+    var highscoreEmbed = new Discord.MessageEmbed() 
+     .setColor('#ff0000')
+     .addFields({name: "Secret word highscore", value: '1.\n2.\n3.\n' })
+     .setImage('https://i.ytimg.com/vi/Y0qk55jUKhk/maxresdefault.jpg')
+  }
+  msg.channel.send(highscoreEmbed)
+  .catch(err => console.log(err));
+}   
 client.on('message', highscoreMessage);
 
 //curl -d msg=test https://uploadbeta.com/api/figlet/ 
 // Querry funktioniert im browser, curl, function nur wenn es schon im browser aufgerufen wurde
-// Error 503, findet den server nicht
+// Error 503 unavailable
 
 // const figletMessageThree = (message) => {
 //     if (message.content === 'f3') {
@@ -230,16 +235,16 @@ client.on('message', highscoreMessage);
 // client.on('message', figletMessage);
 
 const figletMessageTwo = (msg) => {
-    if (msg.content.includes('!figlet')) {
-        let figletInput = msg.content; 
-        let figletSubstringValue = figletInput.substr(8,58);
-        fetch('http://api.textart.io/figlet.json?text=' + figletSubstringValue + '&style=slant&encode=false') 
-            .then(res => res.json())                                    
-            .then(json => {
-                let figletResult = json.contents.figlet;  
-                msg.channel.send('```' + figletResult + '```')
-            }).catch(err => console.log(err));
-     }
+  if (msg.content.includes('!figlet')) {
+    let figletInput = msg.content; 
+    let figletSubstringValue = figletInput.substr(8,58);
+    fetch('http://api.textart.io/figlet.json?text=' + figletSubstringValue + '&style=slant&encode=false') 
+    .then(res => res.json())                                    
+    .then(json => {
+        let figletResult = json.contents.figlet;  
+        msg.channel.send('```' + figletResult + '```')
+    }).catch(err => console.log(err));
+  }
 }
 
 client.on('message', figletMessageTwo);
