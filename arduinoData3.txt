@@ -1,0 +1,22 @@
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, TemHumidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
+Humidity: 13.00 %, Temp: 20.00 Celsius 
+
