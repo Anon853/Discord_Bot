@@ -264,12 +264,15 @@ const figletMessageTwo = (msg) => {
 
 client.on('message', figletMessageTwo);
 
-//serial usb > file
+//serial usb -> file
 //tail -f /dev/ttyUSB0 > /home/user/Dev/Discord_Bot/arduinoData.txt
+//truncate -s 0 arduinoData.txt 
+//tail -c +43 arduinoData.txt
 const arduinoMessage = (msg) => {
+
   if (msg.content === '!arduino') {
 
-    fs.readFile('arduinoData3.txt', 'utf8', function (err,data) {
+    fs.readFile('arduinoData.txt', 'utf8', function (err,data) {
       if (err) {
         return console.log(err);
       } else {
@@ -281,10 +284,7 @@ const arduinoMessage = (msg) => {
       .addFields({name: "Data", value: messageData[0] })
       msg.channel.send(arduinoEmbed);
     }
-
   }
-  
 ,)}}
-
 
 client.on('message', arduinoMessage);
