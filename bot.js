@@ -273,17 +273,17 @@ const arduinoMessage = (msg) => {
   if (msg.content === '!arduino') {
 
     fs.readFile('arduinoData.txt', 'utf8', function (err,data) {
-      if (err) {
-        return console.log(err);
-      } else {
+      
       console.log(data);
-      let messageData = [data];
+      let messageData = data;
 
       var arduinoEmbed = new Discord.MessageEmbed() 
       .setColor('#ff0000')
-      .addFields({name: "Data", value: messageData[0] })
+      .addFields({name: "Arduino", value: "Data: \n" + messageData })
       msg.channel.send(arduinoEmbed);
-    }
+      if (err) {
+        return console.log(err);
+      }
   }
 ,)}}
 
