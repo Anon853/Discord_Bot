@@ -145,26 +145,6 @@ const helpEmbed = new Discord.MessageEmbed()
  .setImage('http://www.dts-tech.com/wp-content/uploads/2017/05/Help-Desk-Image-ID-c1bb886f-73c6-452d-fe4b-c2c298c492a3.png')
  .setTimestamp();
 
-// const secretMessageFunc = () => {
-//   new Discord.MessageEmbed()
-//  .setColor('#0099ff')
-//  .setTitle('It happened!')
-//  .addFields(
-//   { name: 'Oh snap!', value:
-//   '@everyone , hat das geheime Wort gesagt!\n\nMeldet es AG für einen Punkt in der Highscore-Liste und ein neues secret Wort.' },
-//   )
-//   .setImage('http://www.relatably.com/m/img/success-kid-memes/g1369638954952825892.jpg.png')
-  
-// }
-
-// const secretMessageCheck = (msg) => {
-//   if (msg.content.includes('Linus Torvalds')) {msg.channel.send(secretMessageFunc()).catch(err => console.log(err));} 
-//   else if (msg.content.includes('linus torvalds')) {msg.channel.send(secretMessageFunc()).catch(err => console.log(err));}
- 
-// }
-    
-
-
 const secretMessageCheck = (msg) => {
   
     var secretMessageEmbed = new Discord.MessageEmbed()
@@ -209,41 +189,6 @@ const highscoreMessage = (msg) => {
   .catch(err => console.log(err));
 }   
 client.on('message', highscoreMessage);
-
-//curl -d msg=test https://uploadbeta.com/api/figlet/ 
-// Querry funktioniert im browser, curl, function nur wenn es schon im browser aufgerufen wurde
-// Error 503 unavailable
-
-// const figletMessageThree = (message) => {
-//     if (message.content === 'f3') {
-//         let msg = '215';
-
-//         fetch('https://uploadbeta.com/api/figlet/', {
-//             method: 'POST',
-//             body: (msg),
-//             headers: { 'Content-Type': 'application/json' }
-//         }).then(res => res.json())
-//             .then(json => console.log(json));
-//           } 
-//         }
-//     client.on('message', figletMessageThree);
-
-
-// const figletMessage = (msg) => {
-//     if (msg.content === 'f') {
-        
-//         fetch('https://uploadbeta.com/api/figlet/?cached&msg=111')
-//         .then(res => res.json())                                    
-//         .then(json => {
-//             console.log(json);
-//             let figletResult = json;  
-//             msg.channel.send('```' + figletResult + '```')
-//         })
-//         .catch(err => console.log(err));
-//     }
-// }
-
-// client.on('message', figletMessage);
 
 const figletMessageTwo = (msg) => {
   if (msg.content.includes('!figlet')) {
