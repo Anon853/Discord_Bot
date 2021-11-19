@@ -22,7 +22,7 @@ Hey hausbot  | Replies with a random greeting
 !wetter | Displays current weather stats in Hamburg from open weather API
 !secretword | Hints what the current secret word is, bot scans messages to check if it was said
 !highscore | Displays scoreboard of users that found the secret word
-!figlet | Creates ASCII art of input word through an API
+!figlet [text] | Creates ASCII art of input text through an API
 !arduino | Displays current data from arduino sensor that saves temperature / humidity in text file
 
 Notes
