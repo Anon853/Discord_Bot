@@ -27,7 +27,7 @@ Hey hausbot  | Replies with a random greeting
 
 Notes
 --------
-Runs on AWS EC2 linux instance with PM2 deamon tool to keep node instance running. 
+Runs on AWS EC2 linux instance with PM2 daemon tool to keep node instance running. 
 
 Resources
 ---------
