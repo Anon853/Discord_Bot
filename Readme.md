@@ -2,7 +2,7 @@
 
 Chat bot that uses several APIs. Made in node.js, discord.js, shellscript
 
-Demo video: https://www.youtube.com/watch?v=DBxRMe-xRmo
+Demo video: https://youtube.com/shorts/SzcoZSDqVj0
 [![Demo](https://i.postimg.cc/xdB0kcFv/preview2.jpg)](https://youtu.be/DBxRMe-xRmo)  
 
 Features
