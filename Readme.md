@@ -1,11 +1,11 @@
 # Discord bot  
 
 Chat bot that uses several APIs. Made in node.js, discord.js, shellscript
-
+<!--
 Demo video: https://youtu.be/tXqFxpLVK6c
 
 [![image](https://i.postimg.cc/4dPBFjJV/Untitled.jpg)](https://youtu.be/tXqFxpLVK6c)
-
+-->
 Features
 ---------
 
